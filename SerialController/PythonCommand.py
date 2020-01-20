@@ -696,7 +696,6 @@ class Debug(ImageProcPythonCommand):
 		self.press(Direction.UP_RIGHT, duration=0.5)
 		self.press(Direction.UP, duration=0.5)
 		self.press(Direction.UP_LEFT, duration=0.5)
-		
 
 # Get watt automatically using the glitch
 # source: MCU Command 'InifinityWatt'
@@ -807,6 +806,35 @@ class InfinityFeather(RankGlitchPythonCommand):
 			# tm = round(time.time() - start, 2)
 			# print('Loop : {} in {} sec. Average: {} sec/loop'.format(i, tm, round(tm / i, 2)))
 
+class AutoTowerSingle(ImageProcPythonCommand):
+	def __init__(self, name, cam):
+		super(AutoTowerSingle, self).__init__(name, cam)
+
+	def do(self):
+		while self.checkIfAlive():
+			if self.isContainTemplate('autotower-selectpoke.png'):
+				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=0.5)
+				self.press(Direction.DOWN, wait=0.3)
+				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=0.5)
+				self.press(Direction.DOWN, wait=0.3)
+				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=2)
+
+			elif self.isContainTemplate('autotower-cannotfight.png'):
+				self.press(Button.B, wait=0.5)
+				while self.isContainTemplate('autotower-cannotfight.png', 0.9):
+					self.press(Direction.DOWN, wait=0.5)
+					if self.checkIfAlive():
+						break
+
+				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=5)
+			else:
+				self.press(Button.A, wait=0.5)
+
 # sample initial code
 # Copy and paste this class and write codes in start method.
 # After you write the codes, don't forget to add commands dictionary below.
@@ -833,6 +861,7 @@ commands = {
 	'無限きのみ(ランクマ)': InfinityBerry,
 	'無限カフェ(ランクマ)': InfinityCafe,
 	'無限羽回収(ランクマ)': InfinityFeather,
+	'自動タワー周回S(画像認識)': AutoTowerSingle,
 	'デバグ': Debug,
 }
 
