@@ -832,8 +832,24 @@ class AutoTowerSingle(ImageProcPythonCommand):
 
 				self.press(Button.A, wait=0.5)
 				self.press(Button.A, wait=5)
+
 			else:
-				self.press(Button.A, wait=0.5)
+				self.press(Button.A, wait=0.8)
+
+class AutoRaid(ImageProcPythonCommand):
+	def __init__(self, name, cam):
+		super(AutoRaid, self).__init__(name, cam)
+
+	def do(self):
+		while self.checkIfAlive():
+			if self.isContainTemplate('autoraid-soloplay.png', show_value=True):
+				self.press(Direction.DOWN, wait=0.3)
+
+			elif self.isContainTemplate('autoraid-capture.png', 0.8, show_value=True):
+				self.press(Direction.DOWN, wait=0.3)
+
+			else:
+				self.press(Button.A, wait=0.7)
 
 # sample initial code
 # Copy and paste this class and write codes in start method.
@@ -862,6 +878,7 @@ commands = {
 	'無限カフェ(ランクマ)': InfinityCafe,
 	'無限羽回収(ランクマ)': InfinityFeather,
 	'自動タワー周回S(画像認識)': AutoTowerSingle,
+	'自動レイド(画像認識)': AutoRaid,
 	'デバグ': Debug,
 }
 
