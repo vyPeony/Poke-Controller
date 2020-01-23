@@ -823,18 +823,15 @@ class AutoTowerSingle(ImageProcPythonCommand):
 				self.press(Button.A, wait=0.5)
 				self.press(Button.A, wait=2)
 
-			elif self.isContainTemplate('autotower-cannotfight.png'):
-				self.press(Button.B, wait=0.5)
-				while self.isContainTemplate('autotower-cannotfight.png', 0.9):
-					self.press(Direction.DOWN, wait=0.5)
-					if self.checkIfAlive():
-						break
+			while self.isContainTemplate('autotower-cannotfight.png', 0.9):
+				self.press(Direction.DOWN, wait=0.5)
+				if not self.checkIfAlive():
+					break
 
 				self.press(Button.A, wait=0.5)
 				self.press(Button.A, wait=5)
 
-			else:
-				self.press(Button.A, wait=0.8)
+			self.press(Button.A, wait=0.8)
 
 class AutoRaid(ImageProcPythonCommand):
 	def __init__(self, name, cam):
